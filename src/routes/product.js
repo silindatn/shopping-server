@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
 });
 router.post('/transactions', async (req, res) => {
   const { query } = req.body;
-  const transactions = await Transaction.find(query);
+  const transactions = await Transaction.find(query).populate('user').populate('product').exec();
   return res.send({ transactions });
 });
 
