@@ -79,16 +79,17 @@ router.post('/account_balance', async (req, res) => {
  *         description: useinfo including token
  */
 router.post('/login', async (req, res, next) => {
-  const { name, password } = req.body;
+  const { username, password } = req.body;
   try {
     const user = await User.findOne({
-      name,
-      password: sha1(password)
+      username,
+      hash: sha1(password)
     });
     if (user) {
       return res.send(user);
-    }
+    }else {
     next({ msg: 'wrong username or password', status: 401 });
+    }
   } catch (err) {
     next(err);
   }
@@ -156,7 +157,7 @@ router.post('/top-up', async (req, res, next) => {
  *         description: create new user
  */
 router.post('/create', async (req, res, next) => {
-  const { name, password, role } = req.body;
+  const { name, password, role, username } = req.body;
   try {
     const token = `Token ${randomstring.generate(20)}${Date.now()}${randomstring.generate(20)}`;
     let user = await User.findOne({ name });
@@ -165,7 +166,8 @@ router.post('/create', async (req, res, next) => {
     }
     user = new User({
       name,
-      ower: sha1(password),
+      username,
+      hash: sha1(password),
       role: role,
       token,
     });

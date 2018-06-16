@@ -19,7 +19,6 @@ const init = () => {
       autoReconnect: true,
       ssl: true,
       sslValidate: true,
-      auth: {}
   };
   mongoose.set('debug', false);
   if (config.mongodb.isSecure === 'true') {
@@ -107,7 +106,6 @@ const init = () => {
           function _url (next) {
               let url = connectionString;
               if (url != null) {
-                  options['url'] = url;
                   next();
               } else {
                   next('#engine.db.conn.url.invalid');
@@ -119,10 +117,8 @@ const init = () => {
 
               options.ssl = false;
               options.sslValidate = false;
-              const url = options.url;
-              delete options.url;
 
-              mongoose.connect(url, options, function (err) {
+              mongoose.connect(connectionString, options, function (err) {
                   next(err, mongoose.connection);
               });
           },

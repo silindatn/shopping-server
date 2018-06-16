@@ -29,8 +29,13 @@ const router = new express.Router();
  *                 $ref: '#/definitions/product'
  */
 router.get('/', async (req, res) => {
-  const products = await product.find();
+  const products = await Product.find({});
   return res.send({ products });
+});
+router.post('/transactions', async (req, res) => {
+  const { query } = req.body;
+  const transactions = await Transaction.find(query);
+  return res.send({ transactions });
 });
 
 /**

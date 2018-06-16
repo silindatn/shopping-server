@@ -5,32 +5,32 @@ const common = {
 const config = {
   develop: {
     mongodb: {
-      connectionString: 'mongodb://matching-engine:27017/develop',
+      connectionString: 'mongodb://localhost:27017/develop',
       certLocation: "/home/thulanis/Personal Projects/shopping-server/src/cert/mongodb/mongodb-db1-cert.crt",
       user: "shopping",
       password: "shopping2017",
       authdb: "admin",
-      isSecure: "true"
+      isSecure: "false"
     }
   },
   production: {
     mongodb: {
-      baseUrl: 'mongodb://matching-engine:27017/production',
+      baseUrl: 'mongodb://localhost:27017/production',
       certLocation: "/home/thulanis/Personal Projects/shopping-server/src/cert/mongodb/mongodb-db1-cert.crt",
       user: "shopping",
       password: "shopping2017",
       authdb: "admin",
-      isSecure: "true"
+      isSecure: "false"
     }
   },
   test: {
     mongodb: {
-      baseUrl: 'mongodb://matching-engine:27017/test',
+      baseUrl: 'mongodb://localhost:27017/test',
       certLocation: "/home/thulanis/Personal Projects/shopping-server/src/cert/mongodb/mongodb-db1-cert.crt",
       user: "shopping",
       password: "shopping2017",
       authdb: "admin",
-      isSecure: "true"
+      isSecure: "false"
     }
   }
 };

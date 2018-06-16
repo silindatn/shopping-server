@@ -10,7 +10,7 @@ let logger = getLogger('Syslutions');
 logger.level = 'debug';
 let config =  require('./config');
 let { errorHandle, db } =  require('./utils');
-
+var _ = require('lodash');
 db.init();
 
 // error handle
@@ -24,43 +24,43 @@ process.on('uncaughtException', err => {
 
 const app = express();
 
+
 app.use(cors());
 app.use(bodyParser.json({
   limit: '50mb'
 }));
-
-app.use('/', routes);
-app.all('*', function (req, res, handle) {
+app.all('*', function (req, res, next) {
   const token = req.headers.authorization;
-  async.waterfall([
-    function checkToken(next){
-      if (token) {
+      if (token && token !== null && token !== undefined) {
       User.findOne({ token }, function(err, user) {
         if (!err && user){
           req.user = user;
-          next(null, user);
+          next();
+        } else {
+          const excludeUrls = ['/user/create', '/user/login'];
+          const index = _.indexOf(excludeUrls,req.url)
+          // for (const excludeUrl of excludeUrls) {
+            if (index >= 0) {
+              next();
+            } else {
+              return res.send({ status: 401, msg: 'not authorized' });
+            }
+          // }
         }
       });
     } else {
       const excludeUrls = ['/user/create', '/user/login'];
-      for (const excludeUrl of excludeUrls) {
-        if (req.url.indexOf(excludeUrl) === 0) {
-          return next(null, null, true);
+      const index = _.indexOf(excludeUrls,req.url)
+          // for (const excludeUrl of excludeUrls) {
+        if (index >= 0) {
+          next();
+        } else {
+          return res.send({ status: 401, msg: 'not authorized' });
         }
-      }
-      next({ status: 401, msg: 'not authorized' });
     }
+});
 
-    }
-  ],
-function done(err, user, unsecure){
-  if(user || unsecure) {
-    handle();
-  }else {
-    handle(err);
-  }
-});
-});
+app.use('/', routes);
 // ensureLogin.init(app);
 
 app.use(errorHandle);
