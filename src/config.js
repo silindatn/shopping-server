@@ -5,7 +5,8 @@ const common = {
 const config = {
   develop: {
     mongodb: {
-      connectionString: 'mongodb://localhost:27017/develop',
+      connectionStringLocal: 'mongodb://localhost:27017/develop',
+      connectionString: 'mongodb://thulanis_test:Happinessis#me15@ds155833.mlab.com:55833/shopping-online',
       certLocation: "/home/thulanis/Personal Projects/shopping-server/src/cert/mongodb/mongodb-db1-cert.crt",
       user: "shopping",
       password: "shopping2017",

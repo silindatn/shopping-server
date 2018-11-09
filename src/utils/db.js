@@ -1,6 +1,6 @@
 let mongoose =require('mongoose');
 let { getLogger } =require("log4js");
-let logger = getLogger('Syslutions');
+let logger = getLogger('THULANI SILINDA');
 let async = require('async');
 logger.level = 'debug';
 let config =require('../config');
@@ -20,6 +20,22 @@ const init = () => {
       ssl: true,
       sslValidate: true,
   };
+  let optionsAlternative = {
+    server: {
+      poolSize: 100,
+      socketOptions: {
+        keepAlive: 120,
+        auto_reconnect: true
+      },
+      ssl: true,
+      sslValidate: true
+    },
+    auth: {},
+    socketOptions: {
+      keepAlive: 120,
+      auto_reconnect: true
+    }
+  }
   mongoose.set('debug', false);
   if (config.mongodb.isSecure === 'true') {
       async.waterfall([
@@ -117,6 +133,8 @@ const init = () => {
 
               options.ssl = false;
               options.sslValidate = false;
+            // optionsAlternative.server.ssl = false;
+            // optionsAlternative.server.sslValidate = false;
 
               mongoose.connect(connectionString, options, function (err) {
                   next(err, mongoose.connection);

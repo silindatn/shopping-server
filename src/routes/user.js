@@ -2,7 +2,7 @@ let express =require('express');
 let sha1 =require('sha1');
 let randomstring =require('randomstring');
 let { getLogger } =require("log4js");
-let logger = getLogger('Syslutions');
+let logger = getLogger('THULANI SILINDA');
 logger.level = 'debug';
 
 let { User, Account, Transaction } =require('./../models');
